@@ -29,8 +29,8 @@ export default function Header() {
           {/* Logo */}
           <Link to="/home" className="flex items-center space-x-2">
             <img
-              src="https://lh3.googleusercontent.com/noa-2TQslgxjmC3CgtAAaT952-KtrCOGC7epLa7XfKI_xVcnxd045Dr3ePAzJfwIA8VxBHWjYb-W3nSXncw9SK39jJMPvx-xufm4f73zZPiRy2jbcH3U4Tv_dyv6-LxQjXMEBP5Qnso=w16383"
-              alt="Hackathon Logo"
+              src="/logo.jpg"
+              alt="Logo"
               className="h-8 w-auto rounded-full cursor-pointer"
             />
           </Link>
@@ -76,9 +76,9 @@ export default function Header() {
                 {showDropdown && (
                   <div className="absolute right-0 top-full mt-3.5  w-40 bg-white shadow-lg border border-gray-200  text-sm z-50">
                     <div className="px-5 py-3 border-b border-gray-100">
-                      <p className="font-semibold text-gray-900">{"user.name"}</p>
+                      <p className="font-semibold text-gray-900">{user.name}</p>
                       <p className="text-xs text-gray-500 truncate">
-                        {"user.email"}
+                        {user.email}
                       </p>
                     </div>
                     <nav className="flex flex-col">

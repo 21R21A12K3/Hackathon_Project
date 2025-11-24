@@ -6,7 +6,6 @@ import { useAuth } from "../context/AuthContext";
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
-  const {user, setUser} = useState(null);
   const {login} = useAuth();
   const navigate = useNavigate(); 
 
@@ -16,25 +15,12 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const res = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-      const result = await login(formData);
-      setMessage(data.message);
-       if (data.success) {
-         navigate("/"); 
-       }
-      
-    } catch (error) {
-      setMessage("Error connecting to server");
+    const result = await login(formData);
+    if (result.success) {
+      setMessage("Login successful! Redirecting...");
+      navigate("/events"); 
+    } else {
+      setMessage(result.message || "Login failed. Please try again.");
     }
   };
 

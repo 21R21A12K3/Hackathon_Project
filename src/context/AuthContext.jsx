@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
+const API_BASE_URL = "http://localhost:5000";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -11,20 +12,51 @@ export function AuthProvider({ children }) {
     if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
-  const login = ({ email, password }) => {
-    const fakeUser = { id: Date.now(), email };
-    setUser(fakeUser);
-    console.log(user);
-    localStorage.setItem("hackathonUser", JSON.stringify(fakeUser));
-    return true;
+    const login = async ({ email, password }) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Invalid email or password");
+      }
+
+      else{
+        setUser(data.user);
+        localStorage.setItem("hackathonUser", JSON.stringify(data.user));
+        return { success: true };
+      }
+    } catch (err) {
+      console.error("login error", err);
+      return { success: false, message: err.message };
+    }
   };
 
-  const signup = ({ name, email, password }) => {
-    // Replace with real API call
-    const newUser = { id: 2, email, name, isAdmin: false };
-    setUser(newUser);
-    localStorage.setItem("hackathonUser", JSON.stringify(newUser));
-    return true;
+  const signup = async ({ name, email, password }) => {
+    try{
+      const response = await fetch(`${API_BASE_URL}/api/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name, email, password
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
+      setSubmittedData(data.user);
+      setUser(data.user);
+      console.log("Registration successful:", data.user);
+    }
+    catch(error){
+      console.error("Error during registration:", error);
+    }
   };
 
   const logout = () => {

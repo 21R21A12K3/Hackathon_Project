@@ -1,7 +1,7 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
-import { useUser } from "../context/UserContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -10,8 +10,10 @@ export default function Register() {
     name: "",
     email: "",
     password: "",
+    consfirmPassword: "",
   });
-  const { setUser } = useUser();
+  const { signup } = useAuth(); 
+  const [error, setError] = useState("");
 
 
   const handleChange = (e) => {
@@ -22,18 +24,32 @@ export default function Register() {
     }));
   };
 
-  const submitData = (e) => {
+  const submitData = async (e) => {
     e.preventDefault();
+    setError("");
     console.log(formData);
-    setSubmittedData(formData);
-    setUser(formData);
-    setFormdata({
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    const res = await signup({
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+    });
+    if(res.success){
+      setFormdata({
       name: "",
       email: "",
       password: "",
       confirmPassword: "",
     });
     navigate("/events ");
+    }
+    else {
+      setError(result.message || "Registration failed");
+    }
   };
 
   return (
@@ -54,6 +70,10 @@ export default function Register() {
           <h1 className="text-2xl font-bold text-center mb-2  bg-gradient-to-r from-purple-700 to-blue-300 bg-clip-text text-transparent">
             Registration Here
           </h1>
+
+          {error && (
+            <p className="text-red-500 text-xs mb-2 text-center">{error}</p>
+          )}
 
           <div className="space-y-2">
             <div>
@@ -110,7 +130,7 @@ export default function Register() {
                 name="confirmPassword"
                 required
                 placeholder="Re-enter your password"
-                value={formData.password}
+                value={formData.confirmPassword}
                 onChange={handleChange}
                 className="w-full text-sm px-4 py-1 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none bg-gray-50 focus:bg-white text-gray-700"
               />
