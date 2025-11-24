@@ -12,8 +12,9 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = ({ email, password }) => {
-    const fakeUser = { id: 1, email, name: "John Doe", isAdmin: email === "admin@hackathon.com" };
+    const fakeUser = { id: Date.now(), email };
     setUser(fakeUser);
+    console.log(user);
     localStorage.setItem("hackathonUser", JSON.stringify(fakeUser));
     return true;
   };

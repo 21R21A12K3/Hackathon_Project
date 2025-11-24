@@ -1,10 +1,13 @@
 // src/components/Login.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
+  const {user, setUser} = useState(null);
+  const {login} = useAuth();
   const navigate = useNavigate(); 
 
   const handleChange = (e) => {
@@ -24,9 +27,10 @@ export default function Login() {
       });
 
       const data = await res.json();
+      const result = await login(formData);
       setMessage(data.message);
        if (data.success) {
-         navigate("/home"); 
+         navigate("/"); 
        }
       
     } catch (error) {
@@ -43,7 +47,7 @@ export default function Login() {
         <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
 
         <input
-          type="email"
+          type="text"
           name="email"
           placeholder="Email"
           value={formData.email}

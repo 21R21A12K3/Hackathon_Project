@@ -1,51 +1,17 @@
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
-import { useGoogleLogin } from "@react-oauth/google";
 import { useUser } from "../context/UserContext";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState(null);
   const [submittedData, setSubmittedData] = useState(null);
   const [formData, setFormdata] = useState({
-    fname: "",
-    lname: "",
-    address: "",
-    gender: "",
-    dob: "",
-    phone: "",
+    name: "",
+    email: "",
+    password: "",
   });
   const { setUser } = useUser();
-  
-const defaultAvatar = "https://www.gravatar.com/avatar/?d=mp&f=y";
-  useEffect(() => {
-    if (userInfo) {
-      setFormdata((prev) => ({
-        ...prev,
-        fname: userInfo.given_name || "",
-        lname: userInfo.family_name || "",
-        address: userInfo.email || "",
-      }));
-    }
-  }, [userInfo]);
-  const login = useGoogleLogin({
-  onSuccess: async (tokenResponse) => {
-    console.log('access_token:', tokenResponse.access_token);
-    const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-      headers: {
-        Authorization: `Bearer ${tokenResponse.access_token}`,
-      },
-    });
-
-    const profile = await res.json();
-    console.log('User profile:', profile);
-    setUserInfo(profile);
-  },
-  onError: (error) => {
-    console.error('Login Failed:', error);
-  },
-});
 
 
   const handleChange = (e) => {
@@ -62,28 +28,17 @@ const defaultAvatar = "https://www.gravatar.com/avatar/?d=mp&f=y";
     setSubmittedData(formData);
     setUser(formData);
     setFormdata({
-      fname: "",
-      lname: "",
-      address: "",
-      gender: "",
-      dob: "",
-      phone: "",
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     });
     navigate("/events ");
   };
 
   return (
     <div className="relative min-h-screen bg-gray-50 flex flex-col items-center justify-center pt-20 px-4 py-20">
-      {/* Google Login Button - Top right only for large screens */}
-      <div className="hidden lg:block absolute top-20 right-6 z-10">
-        <button
-          type="button"
-          onClick={login}
-          className="text-sm font-medium text-gray-700 bg-white px-6 py-3 rounded-full shadow-xl hover:shadow-xl transition-all duration-200 transform hover:scale-105 cursor-pointer"
-        >
-          Login With Google
-        </button>
-      </div>
+      
 
       {/* Registration Form */}
       <form onSubmit={submitData} className="w-full max-w-lg">
@@ -103,28 +58,13 @@ const defaultAvatar = "https://www.gravatar.com/avatar/?d=mp&f=y";
           <div className="space-y-2">
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">
-                First Name
+                Name
               </label>
               <input
                 type="text"
-                name="fname"
+                name="name"
                 placeholder="Enter your first name"
-                value={formData.fname}
-                onChange={handleChange}
-                required
-                className="w-full text-sm px-4 py-1 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none bg-gray-50 focus:bg-white text-gray-700"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="lname"
-                placeholder="Enter your last name"
-                value={formData.lname}
+                value={formData.name}
                 onChange={handleChange}
                 required
                 className="w-full text-sm px-4 py-1 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none bg-gray-50 focus:bg-white text-gray-700"
@@ -137,10 +77,10 @@ const defaultAvatar = "https://www.gravatar.com/avatar/?d=mp&f=y";
               </label>
               <input
                 type="email"
-                name="address"
+                name="email"
                 required
                 placeholder="Enter your email"
-                value={formData.address}
+                value={formData.email}
                 onChange={handleChange}
                 className="w-full text-sm px-4 py-1 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none bg-gray-50 focus:bg-white text-gray-700"
               />
@@ -148,48 +88,29 @@ const defaultAvatar = "https://www.gravatar.com/avatar/?d=mp&f=y";
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Gender
-              </label>
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                required
-                className="w-full text-sm px-4 py-1 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none bg-gray-50 focus:bg-white text-gray-700"
-              >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="something else">Other</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Date of Birth
+                Password
               </label>
               <input
-                type="date"
-                name="dob"
-                value={formData.dob || ""}
-                onChange={handleChange}
+                type="password"
+                name="password"
                 required
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
                 className="w-full text-sm px-4 py-1 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none bg-gray-50 focus:bg-white text-gray-700"
               />
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Phone Number
+                Confirm Password
               </label>
               <input
-                type="tel"
-                name="phone"
-                pattern="[0-9]{10}"
-                maxLength={10}
+                type="password"
+                name="confirmPassword"
                 required
-                placeholder="Enter your phone number"
-                value={formData.phone}
+                placeholder="Re-enter your password"
+                value={formData.password}
                 onChange={handleChange}
                 className="w-full text-sm px-4 py-1 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none bg-gray-50 focus:bg-white text-gray-700"
               />
@@ -204,17 +125,6 @@ const defaultAvatar = "https://www.gravatar.com/avatar/?d=mp&f=y";
           </div>
         </div>
       </form>
-
-      {/* Google Login Button - Shown below form only on small/medium screens */}
-      <div className=" lg:hidden mt-6 w-full max-w-sm flex justify-center my-20">
-        <button
-          type="button"
-          onClick={login}
-          className="w-full sm:w-auto text-sm font-medium text-gray-700 bg-white px-6 py-3 rounded-full shadow-md hover:shadow-xl transition-all duration-200 transform hover:scale-105 cursor-pointer"
-        >
-          Login With Google
-        </button>
-      </div>
     </div>
   );
 }

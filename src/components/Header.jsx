@@ -102,11 +102,18 @@ export default function Header() {
                 )}
               </div>
             ) : (
-              <Link to="/register">
+              <div>
+              <Link to="/login">
                 <button className="text-sm px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-md cursor-pointer">
-                  Register Now
+                  Sign In
                 </button>
               </Link>
+              <Link to="/register">
+                <button className="ml-2 text-sm px-4 py-2 bg-gray-300 rounded-md cursor-pointer">
+                  Sign Up
+                </button>
+              </Link>
+              </div>
             )}
           </div>
 
