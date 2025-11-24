@@ -206,7 +206,7 @@ const defaultAvatar = "https://www.gravatar.com/avatar/?d=mp&f=y";
       </form>
 
       {/* Google Login Button - Shown below form only on small/medium screens */}
-      <div className="block lg:hidden mt-6 w-full max-w-sm flex justify-center my-20">
+      <div className=" lg:hidden mt-6 w-full max-w-sm flex justify-center my-20">
         <button
           type="button"
           onClick={login}

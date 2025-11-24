@@ -27,7 +27,7 @@ export default function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/home" className="flex items-center space-x-2">
             <img
               src="https://lh3.googleusercontent.com/noa-2TQslgxjmC3CgtAAaT952-KtrCOGC7epLa7XfKI_xVcnxd045Dr3ePAzJfwIA8VxBHWjYb-W3nSXncw9SK39jJMPvx-xufm4f73zZPiRy2jbcH3U4Tv_dyv6-LxQjXMEBP5Qnso=w16383"
               alt="Hackathon Logo"

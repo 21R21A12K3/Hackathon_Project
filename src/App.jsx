@@ -12,6 +12,7 @@ import Leaderboard from "./pages/Leaderboard";
 import Admin from "./pages/Admin";
 import EventDetails from "./pages/EventDetails";
 import Submissions from "./pages/Submissions";
+import Login from "./pages/Login";
 import backgroundImage from './assets/background.jpg';
 
 
@@ -25,7 +26,8 @@ function App() {
         <Header></Header>
         <main className="flex-grow">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/events" element={<Events />} />

@@ -56,7 +56,7 @@ export default function Hackathons() {
         {hackathons.map((hackathon) => (
           <li
             key={hackathon.id}
-            className="p-5 sm:p-4 border border-gray-200 rounded-md hover:shadow-lg transition cursor-pointer touch-manipulation cursor-default"
+            className="p-5 sm:p-4 border border-gray-200 rounded-md hover:shadow-lg transition touch-manipulation cursor-default"
           >
             <h3 className="text-lg sm:text-xl font-semibold text-indigo-600">
               {hackathon.name}

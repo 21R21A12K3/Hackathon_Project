@@ -12,8 +12,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = ({ email, password }) => {
-    // Replace with real API call
-    // Here we simulate user login
     const fakeUser = { id: 1, email, name: "John Doe", isAdmin: email === "admin@hackathon.com" };
     setUser(fakeUser);
     localStorage.setItem("hackathonUser", JSON.stringify(fakeUser));
